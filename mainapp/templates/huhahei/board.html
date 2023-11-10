@@ -5,8 +5,10 @@
 {% block content %}
 <h1>Hello from leaderboard!</h1>
 <ul>
-{% for record in records %}
-    <li>{{ record.name }} <b>{{ record.score }}</b></li>
-{% endfor %}
+  <li>1. {{ records.0.name }} <b>{{ records.0.score }}</b></li>
+  <hr/>
+  {% for record in records|slice:"1:" %}
+    <li>{{ record.rank}}. {{ record.name }}: <b>{{ record.score }}</b></li>
+  {% endfor %}
 </ul>
 {% endblock %}

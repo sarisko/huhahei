@@ -12,4 +12,7 @@ def leaderboard(request):
         {'name': 'Servác', 'score': 2},
         {'name': 'Bonifác', 'score': 1},
     ]
-    return render(request, "huhahei/board.html", {'records': dummy_scores})
+
+    records_with_ranks = [{**r, 'rank': i+1} for i, r in enumerate(dummy_scores)]
+
+    return render(request, "huhahei/board.html", {'records': records_with_ranks})
