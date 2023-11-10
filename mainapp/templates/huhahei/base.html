@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="https://unpkg.com/htmx.org@1.9.8"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://junction.banhetom.com/styles.css">
     <title>{% block title %}HuHaHei!{% endblock %}</title>
 </head>
 
 <body>
+    <div class="template-bg">
+        <img src="https://junction.banhetom.com/oval-one.svg" class="floating-1" />
+        <img src="https://junction.banhetom.com/oval-two.svg" class="floating-2" />
+    </div>
     <div id="content">
         {% block content %}{% endblock %}
     </div>
 </body>
+
 </html>

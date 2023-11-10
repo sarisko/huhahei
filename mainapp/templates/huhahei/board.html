@@ -4,11 +4,22 @@
 
 {% block content %}
 <h1>Hello from leaderboard!</h1>
-<ul>
-  <li>1. {{ records.0.name }} <b>{{ records.0.score }}</b></li>
-  <hr/>
-  {% for record in records|slice:"1:" %}
-    <li>{{ record.rank}}. {{ record.name }}: <b>{{ record.score }}</b></li>
+<div id="top3">
+  {% for record in records|slice:":3" %}
+    <div id="record-{{record.rank}}" class="top leaderboard-item">
+      <span class="rank">{{ record.rank}}.</span>
+      <span class="name">{{ record.name }}</span>
+      <span class="score">{{ record.score }}</span>
+    </div>
   {% endfor %}
-</ul>
+</div>
+<div id="leaderboard" class="leaderboard">
+  {% for record in records|slice:"3:" %}
+    <div class="leaderboard-item">
+      <span class="rank">{{ record.rank}}.</span>
+      <span class="name">{{ record.name }}</span>
+      <span class="score">{{ record.score }}</span>
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}
