@@ -42,12 +42,12 @@ let lastGestureTimestamp = null;
 let gameStartTimestamp = 0;
 
 const styleChangeThrottle = 900;
-let lastStyleChange = 0;
+// let lastStyleChange = 0;
 function dataDetection() {
   if (!recording) return;
   if (data.length < gestLength) return;
 
-  if (Date.now() - lastStyleChange > styleChangeThrottle) {
+  /* if (Date.now() - lastStyleChange > styleChangeThrottle) {
     const gameTimePercentage = gameStartTimestamp
       ? Math.round(((Date.now() - gameStartTimestamp) / gameLengthMs) * 100)
       : 0;
@@ -58,7 +58,7 @@ function dataDetection() {
     }%, rgba(147,7,58,1) ${gameTimePercentage}%, rgba(147,7,58,1) 100%);
     `;
     lastStyleChange = Date.now();
-  }
+  } */
 
   const magnitude = getMagnitude(data.length - gestLength, data.length);
   if (magnitude < gestThreshold) {
