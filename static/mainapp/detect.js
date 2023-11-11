@@ -90,17 +90,28 @@ function dataDetection() {
       "! " +
       Math.round((gameLengthMs - (Date.now() - gameStartTimestamp)) / 1000) +
       " seconds left!"; */
-
+    let audio;
     switch (closest[0]) {
       case "up":
-        document.getElementById("huAudio").cloneNode(true).play();
+        audio = document.getElementById("huAudio");
         break;
       case "side":
-        document.getElementById("haAudio").cloneNode(true).play();
+        audio = document.getElementById("haAudio");
         break;
       case "forward":
-        document.getElementById("heiAudio").cloneNode(true).play();
+        audio = document.getElementById("heiAudio");
         break;
+    }
+    try {
+      audio.current.pause();
+      audio.current.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+    try {
+      audio.play();
+    } catch {
+      /* ignore */
     }
 
     console.log("closest", closest);
@@ -120,13 +131,21 @@ function dataDetection() {
       ];
       document.getElementById("calibrationModalContent").innerHTML +=
         "<br>Move to the side now!";
-      document.getElementById("huAudio").cloneNode(true).play();
+      try {
+        document.getElementById("huAudio").play();
+      } catch {
+        /* ignore */
+      }
       break calibration;
     }
     if (repr.side === null) {
       document.getElementById("calibrationModalContent").innerHTML +=
         "<br>Move forward now!";
-      document.getElementById("haAudio").cloneNode(true).play();
+      try {
+        document.getElementById("haAudio").play();
+      } catch {
+        /* ignore */
+      }
       repr.side = [
         zeroMeanUnitVarianceNormalization(
           data.slice(data.length - gestLength, data.length),
@@ -138,7 +157,11 @@ function dataDetection() {
       break calibration;
     }
     if (repr.forward === null) {
-      document.getElementById("heiAudio").cloneNode(true).play();
+      try {
+        document.getElementById("heiAudio").play();
+      } catch {
+        /* ignore */
+      }
       repr.forward = [
         zeroMeanUnitVarianceNormalization(
           data.slice(data.length - gestLength, data.length),
