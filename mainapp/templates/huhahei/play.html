@@ -91,20 +91,29 @@
 </div>
 <script src="{% static 'mainapp/detect.js' %}"></script>
 <script>
-
   function startCalibrating(onFinished) {
-    // TODO: Zajo
-    setTimeout(onFinished, 2000)
+    requestPermission();
+    // definitely not abusing globals
+    onCalibrated = onFinished;
+
+    window.addEventListener("devicemotion", motionHandler);
+    window.addEventListener("deviceorientation", (event) => {
+      if (!recording) return;
+      dataRot.push({ x: event.alpha, y: event.beta, z: event.gamma });
+    });
+    recording = true;
   }
 
   function isCalibrated() {
-    // TODO: Zajo
-    return true
+    return repr.up !== null && repr.side !== null && repr.forward !== null;
   }
 
   function startPlaying(onFinished) {
-    // TODO: Zajo
-    setTimeout(function () { onFinished({ "foo": "bar" }) }, 2000)
+    requestPermission();
+    inGame = true;
+    currentGameGestures = [];
+    onFinishedPlaying = onFinished;
+
   }
 
 
@@ -126,6 +135,7 @@
 
     if (isCalibrated()) {
       document.getElementById('playButton').disabled = false
+
     }
   }
 
