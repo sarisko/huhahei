@@ -37,8 +37,88 @@
     >Submit</button>
 </p>
 
+<div class="container">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#configModal">Calibrate</button>
+</div>
+
+<div class="container">
+    <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal" disabled>Play</button>
+</div>
+
 <hr/>
 
 <div class="container" id="messages"></div>
+
+<div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Calibrating</h5>
+      </div>
+      <div class="modal-body">
+        Lorem Ipsum ...
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Playing</h5>
+      </div>
+      <div class="modal-body">
+        Lorem Ipsum
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function startCalibrating(onFinished) {
+    // TODO: Zajo
+    setTimeout(onFinished, 3000)
+}
+
+function isCalibrated() {
+    // TODO: Zajo
+    return false
+}
+
+function startPlaying(onFinished) {
+    // TODO: Zajo
+    setTimeout(function () {onFinished({"foo": "bar"})}, 3000)
+}
+
+
+function setUpGameFlow() {
+  document.getElementById('configModal').addEventListener('shown.bs.modal', function () {
+    startCalibrating(function() {
+      bootstrap.Modal.getInstance(document.getElementById('configModal')).hide()
+      document.getElementById('playButton').disabled = false
+    })
+  })
+
+  document.getElementById('playModal').addEventListener('shown.bs.modal', function () {
+    startPlaying(function(data) {
+      bootstrap.Modal.getInstance(document.getElementById('playModal')).hide()
+      console.log("Game data: " + JSON.stringify(data))
+    })
+  })
+
+  if(isCalibrated()) {
+    document.getElementById('playButton').disabled = false
+  }
+}
+
+setUpGameFlow()
+
+</script>
 
 {% endblock %}
