@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-9z+@!!ci-cchu8nyadof@)=(=e*wtkq)^!3p@(sp1@!ii!w32+
 STATIC_ROOT = '/var/www/static/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['.ngrok-free.app','.huhahei.com', 'localhost', '127.0.0.1']
 
