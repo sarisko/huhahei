@@ -1,9 +1,9 @@
 {% for msg in msgs %}
-<li>
-    <span>{{ msg.text }}</span>
-    <span onclick="this.parentNode.remove(); return false;">[dismiss]</span>
-</li>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ msg.text }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 {% endfor %}
 {% if top_score != None %}
-    <span id="top_score" hx-swap-oob="true">{{ top_score }}</span>
+  <span id="top_score" hx-swap-oob="true">{{ top_score }}</span>
 {% endif %}
