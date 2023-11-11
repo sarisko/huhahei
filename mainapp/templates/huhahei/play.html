@@ -5,9 +5,9 @@
 {% block content %}
 <h1>Hello player!</h1>
 
-<p>
+<p class="text-center">
     You are playing {{ game.title}}
-    (<a href="{% url 'board' game_id=game.id %}">leaderboard</a>)
+    <a class="btn btn-link" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
 </p>
 
 <p>
@@ -16,9 +16,11 @@
 
 <form >
     {% csrf_token %}
-    <label for="{{ name_form.name.id_for_label }}">Name: </label>
-    {{ name_form.name }}
-    <button
+    <div class="form-group">
+        <label for="{{ name_form.name.id_for_label }}">Name: </label>
+        {{ name_form.name }}
+    </div>
+    <button class="btn btn-primary"
         hx-post="{% url 'update-name' game_id=game.id %}"
         hx-include="closest form"
         hx-target="#messages"
@@ -28,13 +30,13 @@
 
 <p>
     {% csrf_token %}
-    Generate random score:
     <button
         hx-post="{% url 'submit' game_id=game.id %}"
         hx-include="closest p"
         hx-target="#messages"
         hx-swap="afterbegin"
-    >Submit</button>
+        class="btn btn-secondary"
+    >Generate random score</button>
 </p>
 
 <div class="container">
