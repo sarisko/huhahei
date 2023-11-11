@@ -1,4 +1,5 @@
 {% extends "huhahei/base.html" %}
+{% load static %}
 
 {% block title %}Game{% endblock %}
 
@@ -75,7 +76,7 @@
     {% csrf_token %}
     <textarea name="data" id="submitData"></textarea>
 </div>
-
+<script src="{% static 'mainapp/detect.js' %}"></script>
 <script>
 
     function startCalibrating(onFinished) {
