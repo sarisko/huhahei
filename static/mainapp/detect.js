@@ -39,6 +39,7 @@ let onFinishedPlaying = null;
 
 let currentGameGestures = []; // [['up', 0], ['side', 200]] (first timestamp is always 0)
 let lastGestureTimestamp = null;
+let gameStartTimestamp = 0;
 
 function dataDetection() {
   if (!recording) return;
@@ -56,6 +57,7 @@ function dataDetection() {
     const closest = getClosest();
     if (currentGameGestures.length === 0) {
       lastGestureTimestamp = Date.now();
+      gameStartTimestamp = Date.now();
       currentGameGestures.push([closest[0], 0]);
       setTimeout(() => {
         onFinishedPlaying(currentGameGestures);
@@ -67,6 +69,8 @@ function dataDetection() {
       lastGestureTimestamp = Date.now();
     }
     // just debug for now
+    // document.getElementById("playingModalContent").innerHTML +=
+    // "<br>" + closest[0] + "!" + ;
 
     console.log("closest", closest);
   }
@@ -255,13 +259,17 @@ function requestPermission() {
   // Request permission for iOS 13+ devices
   // this needs to happen after user interaction, otherwise iphones
   // won't let you record accelerometer data
-  if (
-    DeviceMotionEvent &&
-    typeof DeviceMotionEvent.requestPermission === "function" &&
-    !permissionRequested
-  ) {
-    DeviceMotionEvent.requestPermission();
+  try {
+    if (
+      DeviceMotionEvent &&
+      typeof DeviceMotionEvent.requestPermission === "function" &&
+      !permissionRequested
+    ) {
+      DeviceMotionEvent.requestPermission();
+      permissionRequested = true;
+      // ignore the case of denial :D
+    }
+  } catch {
     permissionRequested = true;
-    // ignore the case of denial :D
   }
 }
