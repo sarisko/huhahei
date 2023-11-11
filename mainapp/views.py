@@ -52,10 +52,12 @@ def _manage_player(func):
 @_manage_player
 def play(request, game, player):
     name_form = forms.NameForm(data={'name': player.name})
+    submit_form = forms.SubmitForm()
     return render(request, "huhahei/play.html", {
         'game': game,
         'player': player,
         'name_form': name_form,
+        'submit_form': submit_form,
     })
 
 

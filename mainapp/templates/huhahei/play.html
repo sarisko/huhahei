@@ -28,17 +28,6 @@
     >Save</button>
 </form>
 
-<p>
-    {% csrf_token %}
-    <button
-        hx-post="{% url 'submit' game_id=game.id %}"
-        hx-include="closest p"
-        hx-target="#messages"
-        hx-swap="afterbegin"
-        class="btn btn-secondary"
-    >Generate random score</button>
-</p>
-
 <div class="container">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#configModal">Calibrate</button>
 </div>
@@ -81,21 +70,37 @@
   </div>
 </div>
 
+<div
+    id="submitDiv"
+    hx-trigger="submitEvent"
+    hx-post="{% url 'submit' game_id=game.id %}"
+    hx-include="this"
+    hx-target="#messages"
+    hx-swap="afterbegin"
+    style="display: none"
+>
+  {% csrf_token %}
+  <textarea name="data" id="submitData"></textarea>
+  <button
+
+  >Submit</button>
+</div>
+
 <script>
 
 function startCalibrating(onFinished) {
     // TODO: Zajo
-    setTimeout(onFinished, 3000)
+    setTimeout(onFinished, 2000)
 }
 
 function isCalibrated() {
     // TODO: Zajo
-    return false
+    return true
 }
 
 function startPlaying(onFinished) {
     // TODO: Zajo
-    setTimeout(function () {onFinished({"foo": "bar"})}, 3000)
+    setTimeout(function () {onFinished({"foo": "bar"})}, 2000)
 }
 
 
@@ -110,7 +115,8 @@ function setUpGameFlow() {
   document.getElementById('playModal').addEventListener('shown.bs.modal', function () {
     startPlaying(function(data) {
       bootstrap.Modal.getInstance(document.getElementById('playModal')).hide()
-      console.log("Game data: " + JSON.stringify(data))
+      document.getElementById('submitData').value = JSON.stringify(data)
+      htmx.trigger("#submitDiv", "submitEvent")
     })
   })
 
