@@ -189,29 +189,17 @@ h2 {
 }
 
 #nav {
-    position: fixed;
-    top:10px;
-    left:10px;
-}
-
-
-#nav a {
-    padding: 10px;
+    /* padding: 10px; */
     border-radius: 10px;
-    width: 3em;
-    height: 3em;
+    width: 3rem; 
+    height: auto;
     transition: background-color 0.3s ease;
     color: #fafafa;
     box-shadow: inset 0 0 0 2px #720143;
     display: flex;
 }
 
-#nav img{
-    filter: invert(100%) sepia(0%) saturate(25%) hue-rotate(70deg) brightness(108%) contrast(108%);
-}
-
-
-#nav a:hover {
+#nav:hover {
     transition: background-color 0.3s ease;
     color: #fafafa;
     box-shadow: inset 0 0 0 0;
