@@ -3,7 +3,12 @@
     "model": "mainapp.game",
     "pk": "44f5c1d5-81a6-436e-9b52-1d0f160877c4",
     "fields": {
-      "title": "HuHaHei! Demo"
+      "title": "HuHaHei! Demo",
+      "capture_time_ms": 20000,
+      "target_pattern": [
+        ["up", 0], ["up", 2000], ["up", 4000], ["up", 6000], ["up", 8000],
+        ["up", 10000], ["up", 12000], ["up", 14000], ["up", 16000], ["up", 18000]
+      ]
     }
   }
 ]

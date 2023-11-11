@@ -92,7 +92,7 @@ def submit(request, game, player):
 
     # simulate score
     # score = sum([random.randint(0, 100) for _ in range(10)])
-    score = algorithm.find_best_score(submit_form.cleaned_data['data'], algorithm.DEMO_TARGET)
+    score = algorithm.find_best_score(submit_form.cleaned_data['data'], game.target_pattern)
 
     messages.append({'text': f'Your score is {score}'})
 

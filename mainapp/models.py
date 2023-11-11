@@ -5,6 +5,8 @@ import uuid
 class Game(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
+    capture_time_ms = models.IntegerField()
+    target_pattern = models.JSONField()
 
     def __str__(self):
         return f'{self.title} ({self.id})'

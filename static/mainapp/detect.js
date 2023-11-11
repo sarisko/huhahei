@@ -25,7 +25,7 @@ let lastDetectTimestamp = 0;
 // CONSTANTS - SETTINGS
 const gestLength = 80;
 const gestThreshold = 500;
-const gameLengthMs = 23000;
+const gameLengthMs = document.getElementById('playModal').dataset.captureTimeMs;
 // TRRRRR
 //
 const repr = {
