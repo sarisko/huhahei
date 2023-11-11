@@ -81,7 +81,7 @@ DATABASES = {
         'USER': 'upadmin',
         'PASSWORD': 'AVNS_uAGjEXthQv-CXMnSYbY',
         'HOST': 'replica-huhahei-iqzpgtqcioig.db.upclouddatabases.com',
-        'PORT': '',
+        'PORT': '11569',
     }
 }
 
