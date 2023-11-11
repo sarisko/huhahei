@@ -44,6 +44,11 @@ let gameStartTimestamp = 0;
 const styleChangeThrottle = 900;
 let lastStyleChange = 0;
 function dataDetection() {
+  if (inGame) {
+    if (document.activeElement) {
+      document.activeElement.blur();
+    }
+  }
   if (!recording) return;
   if (data.length < gestLength) return;
 
@@ -325,6 +330,9 @@ function requestPermission() {
       DeviceMotionEvent.requestPermission();
       permissionRequested = true;
       // ignore the case of denial :D
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
     }
   } catch {
     permissionRequested = true;

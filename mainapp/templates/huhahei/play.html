@@ -103,7 +103,9 @@
         }
     });
     function startCalibrating(onFinished) {
-        requestPermission();
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
         // definitely not abusing globals
         onCalibrated = onFinished;
         document.getElementById('calibrationModalContent').innerHTML = '<p>Calibrating...</p><br>Move up now!';
@@ -125,7 +127,9 @@
     }
 
     function startPlaying(onFinished) {
-        requestPermission();
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
         document.getElementById('playingModalContent').innerHTML = "<p>Playing...</p><br>Follow the movements!" +
             "<br>The game takes starts with your first movement!";
 
@@ -137,7 +141,8 @@
 
 
     function setUpGameFlow() {
-        document.getElementById('configModal').addEventListener('shown.bs.modal', function () {
+        document.getElementById('calibrateButton').addEventListener('click', function () {
+            requestPermission();
             startCalibrating(function () {
                 bootstrap.Modal.getInstance(document.getElementById('configModal')).hide()
                 document.getElementById('playButton').disabled = false
@@ -148,7 +153,8 @@
             })
         })
 
-        document.getElementById('playModal').addEventListener('shown.bs.modal', function () {
+        document.getElementById('playButton').addEventListener('click', function () {
+            requestPermission();
             startPlaying(function (data) {
                 bootstrap.Modal.getInstance(document.getElementById('playModal')).hide()
                 document.getElementById('submitData').value = JSON.stringify(data)
@@ -158,7 +164,6 @@
 
         if (isCalibrated()) {
             document.getElementById('playButton').disabled = false
-
         }
     }
 
