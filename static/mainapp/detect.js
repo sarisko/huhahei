@@ -25,7 +25,7 @@ let lastDetectTimestamp = 0;
 // CONSTANTS - SETTINGS
 const gestLength = 80;
 const gestThreshold = 500;
-const gameLengthMs = document.getElementById('playModal').dataset.captureTimeMs;
+const gameLengthMs = document.getElementById("playModal").dataset.captureTimeMs;
 // TRRRRR
 //
 const repr = {
@@ -105,11 +105,13 @@ function dataDetection() {
       ];
       document.getElementById("calibrationModalContent").innerHTML +=
         "<br>Move to the side now!";
+      document.getElementById("huAudio").play();
       break calibration;
     }
     if (repr.side === null) {
       document.getElementById("calibrationModalContent").innerHTML +=
         "<br>Move forward now!";
+      document.getElementById("haAudio").play();
       repr.side = [
         zeroMeanUnitVarianceNormalization(
           data.slice(data.length - gestLength, data.length),
@@ -121,6 +123,7 @@ function dataDetection() {
       break calibration;
     }
     if (repr.forward === null) {
+      document.getElementById("heiAudio").play();
       repr.forward = [
         zeroMeanUnitVarianceNormalization(
           data.slice(data.length - gestLength, data.length),
