@@ -101,14 +101,27 @@
 
 <script>
 
-    let sequence = [1, 2, 3, 2, 1, 2, 2, 2, 3, 3, 1]
+    //let sequence = [1, 2, 3, 2, 1, 2, 2, 2, 3, 3, 1]
+    let sequence = [
+        {"move":1, "delay":1000},
+        {"move":2, "delay":3000},
+        {"move":3, "delay":1000},
+        {"move":2, "delay":2000},
+        {"move":1, "delay":2000},
+        {"move":1, "delay":2000},
+        {"move":1, "delay":2000},
+        {"move":1, "delay":2000},
+        {"move":1, "delay":2000},
+        {"move":1, "delay":2000},
+        {"move":1, "delay":2000}
+    ]
 
     function execute_next_move(n){
         let next_move = sequence[n];
-        createArrow(next_move);
+        createArrow(next_move.move);
         
         if(n-1<sequence.length){
-        setTimeout(execute_next_move, 2000, n+1);}
+        setTimeout(execute_next_move, next_move.delay, n+1);}
         }
 
         function countdown(n){
