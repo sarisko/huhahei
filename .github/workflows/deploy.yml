@@ -15,5 +15,5 @@ jobs:
       - name: Deploy to server
         run: |
           echo "Starting deployment..."
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no root@94.237.107.170 "cd huhahei && git pull origin main && python3 manage.py migrate --settings=huhahei.settings_prod && python3 manage.py loaddata junction-fixture.json --settings=huhahei.settings_prod && python3 manage.py collectstatic"
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no root@94.237.107.170 "cd huhahei && git pull origin main && python3 manage.py migrate --settings=huhahei.settings_prod && python3 manage.py loaddata junction-fixture.json --settings=huhahei.settings_prod"
           echo "Deployment completed."
