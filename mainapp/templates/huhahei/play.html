@@ -18,15 +18,15 @@
 
 <form class="form-inline form-horizontal">
   {% csrf_token %}
-  <div class="row g-3 align-items-center">
-    <div class="col-sm-1">
+  <div class="row align-items-center">
+    <div class="col-auto">
       <label class="form-label " for="{{ name_form.name.id_for_label }}">Name</label>
     </div>
-    <div class="col-sm-3">
+    <div class="col-auto">
       <input class="form-control form-control-sm " id="{{ name_form.name.id_for_label }}" type="text"
         value="{{name_form.name.value}}" name="{{name_form.name.name}}"></input>
     </div>
-    <div class="col-sm-3">
+    <div class="col-auto">
       <button class="btn btn-primary " hx-post="{% url 'update-name' game_id=game.id %}" hx-include="closest form"
         hx-target="#messages" hx-swap="afterbegin">Save</button>
     </div>
@@ -50,8 +50,7 @@
 
 <div class="container" id="messages"></div>
 
-<div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-hidden="true">
+<div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
@@ -62,10 +61,10 @@
       </div>
       <div class="modal-footer"></div>
     </div>
+  </div>
 </div>
 
-<div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-hidden="true">
+<div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
@@ -78,6 +77,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
+  </div>
 </div>
 
 <div id="submitDiv" hx-trigger="submitEvent" hx-post="{% url 'submit' game_id=game.id %}" hx-include="this"
