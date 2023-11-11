@@ -41,9 +41,24 @@ let currentGameGestures = []; // [['up', 0], ['side', 200]] (first timestamp is 
 let lastGestureTimestamp = null;
 let gameStartTimestamp = 0;
 
+const styleChangeThrottle = 900;
+let lastStyleChange = 0;
 function dataDetection() {
   if (!recording) return;
   if (data.length < gestLength) return;
+
+  if (Date.now() - lastStyleChange > styleChangeThrottle) {
+    const gameTimePercentage = gameStartTimestamp
+      ? Math.round(((Date.now() - gameStartTimestamp) / gameLengthMs) * 100)
+      : 0;
+    document.getElementById("playingModalContent").style = ` 
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) ${
+      gameTimePercentage - 3
+    }%, rgba(147,7,58,1) ${gameTimePercentage}%, rgba(147,7,58,1) 100%);
+    `;
+    lastStyleChange = Date.now();
+  }
 
   const magnitude = getMagnitude(data.length - gestLength, data.length);
   if (magnitude < gestThreshold) {
@@ -68,13 +83,13 @@ function dataDetection() {
       currentGameGestures.push([closest[0], Date.now() - gameStartTimestamp]);
       lastGestureTimestamp = Date.now();
     }
-    // just debug for now
-    document.getElementById("playingModalContent").innerHTML +=
+    // in case debugging is needed
+    /* document.getElementById("playingModalContent").innerHTML +=
       "<br>" +
       closest[0] +
       "! " +
       Math.round((gameLengthMs - (Date.now() - gameStartTimestamp)) / 1000) +
-      " seconds left!";
+      " seconds left!"; */
 
     switch (closest[0]) {
       case "up":

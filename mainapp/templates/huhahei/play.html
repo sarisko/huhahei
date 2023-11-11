@@ -57,7 +57,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Calibrating</h5>
             </div>
-            <div class="modal-body" id="calibrationModalContent">
+            <div class="modal-body text-center fs-1" id="calibrationModalContent">
             </div>
             <div class="modal-footer"></div>
         </div>
@@ -71,10 +71,11 @@
             <div class="modal-header">
                 <h5 class="modal-title">Playing</h5>
             </div>
-            <div class="modal-body" id="playingModalContent">
+            <div class="modal-body text-center fs-1" id="playingModalContent">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <!-- todo remove the button after debugging done  -->
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
             </div>
         </div>
     </div>
@@ -131,10 +132,11 @@
     function startPlaying(onFinished) {
         requestPermission();
         document.getElementById('playingModalContent').innerHTML = "<p>Playing...</p><br>Follow the movements!" +
-            "<br>The game takes " + Math.round(gameLengthMs / 1000) + " seconds";
+            "<br>The game takes starts with your first movement!";
 
         inGame = true;
         currentGameGestures = [];
+        gameStartTimestamp = 0; // set to something on first gesture
         onFinishedPlaying = onFinished;
     }
 
