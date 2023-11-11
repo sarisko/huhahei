@@ -1,4 +1,5 @@
 import functools
+import random
 import uuid
 
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -72,4 +73,23 @@ def update_name(request, game, player):
         'msgs': [
             {'text': f'Your name has been updated to "{player.name}"'}
         ]
+    })
+
+
+@_manage_player
+def submit(request, game, player):
+    messages = []
+
+    # simulate score
+    score = sum([random.randint(0, 100) for _ in range(10)])
+    messages.append({'text': f'Your score is {score}'})
+
+    if score > (player.top_score or 0):
+        player.top_score = score
+        player.save()
+        messages.append({'text': f'Congratulations! This is your new best score.'})
+
+    return render(request, 'huhahei/play_msgs.html', {
+        'msgs': reversed(messages),
+        'top_score': player.top_score
     })

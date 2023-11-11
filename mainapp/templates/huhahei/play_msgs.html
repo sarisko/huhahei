@@ -4,3 +4,6 @@
     <span onclick="this.parentNode.remove(); return false;">[dismiss]</span>
 </li>
 {% endfor %}
+{% if top_score != None %}
+    <span id="top_score" hx-swap-oob="true">{{ top_score }}</span>
+{% endif %}
