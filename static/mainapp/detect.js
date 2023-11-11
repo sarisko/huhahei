@@ -65,7 +65,7 @@ function dataDetection() {
         inGame = false;
       }, gameLengthMs);
     } else {
-      currentGameGestures.push([closest[0], Date.now() - lastGestureTimestamp]);
+      currentGameGestures.push([closest[0], Date.now() - gameStartTimestamp]);
       lastGestureTimestamp = Date.now();
     }
     // just debug for now
