@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'defaultdb',
         'USER': 'upadmin',
         'PASSWORD': 'AVNS_uAGjEXthQv-CXMnSYbY',
-        'HOST': 'replica-huhahei-iqzpgtqcioig.db.upclouddatabases.com',
+        'HOST': 'huhahei-iqzpgtqcioig.db.upclouddatabases.com',
         'PORT': '11569',
     }
 }
