@@ -1,0 +1,6 @@
+{% for msg in msgs %}
+<li>
+    <span>{{ msg.text }}</span>
+    <span onclick="this.parentNode.remove(); return false;">[dismiss]</span>
+</li>
+{% endfor %}

@@ -66,6 +66,10 @@ def update_name(request, game, player):
     if not name_form.is_valid():
         return HttpResponseBadRequest()
 
-    player.name = name_form.cleaned_data["name"]
+    player.name = name_form.cleaned_data['name']
     player.save()
-    return HttpResponse('')
+    return render(request, 'huhahei/play_msgs.html', {
+        'msgs': [
+            {'text': f'Your name has been updated to "{player.name}"'}
+        ]
+    })
