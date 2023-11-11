@@ -1,8 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="https://unpkg.com/htmx.org@1.9.8"></script>
     <title>{% block title %}HuHaHei!{% endblock %}</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <style>
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto'), url('/Roboto-Regular.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Roboto'), url('/Roboto-Bold.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Roboto Light';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Roboto Light'), url('/Roboto-Light.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Roboto Medium';
+            font-style: normal;
+            font-weight: 500;
+            src: local('Roboto Medium'), url('/Roboto-Medium.woff') format('woff');
+        }
+
+        body {
+            -webkit-touch-callout: none;
+            /* Safari */
+            -webkit-user-select: none;
+            /* Chrome */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -10,4 +57,5 @@
         {% block content %}{% endblock %}
     </div>
 </body>
+
 </html>
