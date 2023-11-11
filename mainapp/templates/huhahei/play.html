@@ -88,6 +88,18 @@
     <textarea name="data" id="submitData"></textarea>
 </div>
 <script src="{% static 'mainapp/detect.js' %}"></script>
+<!-- load the audio samples-->
+<audio id="huAudio">
+    <source src="{% static 'mainapp/hu.wav' %}" type="audio/wav">
+</audio>
+<audio id="haAudio">
+    <source src="{% static 'mainapp/ha.wav' %}" type="audio/wav">
+</audio>
+<audio id="heiAudio">
+    <source src="{% static 'mainapp/hei.wav' %}" type="audio/wav">
+</audio>
+<!-- audio.current.pause() -->
+<!-- audio.current.currentTime = 0 -->
 <script>
     function startCalibrating(onFinished) {
         requestPermission();
@@ -97,13 +109,14 @@
         repr.up = null;
         repr.side = null;
         repr.forward = null;
-
-        window.addEventListener("devicemotion", motionHandler);
-        window.addEventListener("deviceorientation", (event) => {
-            if (!recording) return;
-            dataRot.push({x: event.alpha, y: event.beta, z: event.gamma});
-        });
-        recording = true;
+        if (!recording) {
+            window.addEventListener("devicemotion", motionHandler);
+            window.addEventListener("deviceorientation", (event) => {
+                if (!recording) return;
+                dataRot.push({x: event.alpha, y: event.beta, z: event.gamma});
+            });
+            recording = true;
+        }
     }
 
     function isCalibrated() {

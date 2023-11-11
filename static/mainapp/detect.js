@@ -69,8 +69,24 @@ function dataDetection() {
       lastGestureTimestamp = Date.now();
     }
     // just debug for now
-    // document.getElementById("playingModalContent").innerHTML +=
-    // "<br>" + closest[0] + "!" + ;
+    document.getElementById("playingModalContent").innerHTML +=
+      "<br>" +
+      closest[0] +
+      "! " +
+      Math.round((gameLengthMs - (Date.now() - gameStartTimestamp)) / 1000) +
+      " seconds left!";
+
+    switch (closest[0]) {
+      case "up":
+        document.getElementById("huAudio").play();
+        break;
+      case "side":
+        document.getElementById("haAudio").play();
+        break;
+      case "forward":
+        document.getElementById("heiAudio").play();
+        break;
+    }
 
     console.log("closest", closest);
   }
