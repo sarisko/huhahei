@@ -7,45 +7,45 @@
 <h1>Hello <span class="highlight" id="player_name">{{player.name}}</span>!</h1>
 
 <p class="text-center">
-  You are playing <span class="highlight">{{game.title}}</span>
+    You are playing <span class="highlight">{{game.title}}</span>
 </p>
 <p class="text-center">
-  Your best score is <span class="highlight" id="top_score">{{ player.top_score }}</span>
+    Your best score is <span class="highlight" id="top_score">{{ player.top_score }}</span>
 </p>
 <p class="text-center">
-  <a class="btn btn-secondary" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
+    <a class="btn btn-secondary" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
 </p>
 
 <form class="form-inline form-horizontal">
-  {% csrf_token %}
-  <div class="container">
-    <div class="row align-items-center justify-content-md-center">
-      <div class="col-auto">
-        <label class="form-label " for="{{ name_form.name.id_for_label }}">Name</label>
-      </div>
-      <div class="col-auto">
-        <input class="form-control form-control-sm " id="{{ name_form.name.id_for_label }}" type="text"
-          value="{{name_form.name.value}}" name="{{name_form.name.name}}"></input>
-      </div>
-      <div class="col-auto">
-        <button class="btn btn-primary " hx-post="{% url 'update-name' game_id=game.id %}" hx-include="closest form"
-          hx-target="#messages" hx-swap="afterbegin">Save</button>
-      </div>
+    {% csrf_token %}
+    <div class="container">
+        <div class="row align-items-center justify-content-md-center">
+            <div class="col-auto">
+                <label class="form-label " for="{{ name_form.name.id_for_label }}">Name</label>
+            </div>
+            <div class="col-auto">
+                <input class="form-control form-control-sm " id="{{ name_form.name.id_for_label }}" type="text"
+                    value="{{name_form.name.value}}" name="{{name_form.name.name}}"></input>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary " hx-post="{% url 'update-name' game_id=game.id %}"
+                    hx-include="closest form" hx-target="#messages" hx-swap="afterbegin">Save</button>
+            </div>
+        </div>
     </div>
-  </div>
 </form>
 
 
 <div class="row align-items-center justify-content-md-center">
-  <div class="col-auto">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-      data-bs-target="#configModal">Calibrate</button>
-  </div>
+    <div class="col-auto">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#configModal">Calibrate</button>
+    </div>
 
-  <div class="col-auto">
-    <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal"
-      disabled>Play</button>
-  </div>
+    <div class="col-auto">
+        <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal"
+            disabled>Play</button>
+    </div>
 </div>
 
 <hr />
@@ -53,93 +53,92 @@
 <div class="container" id="messages"></div>
 
 <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Calibrating</h5>
-      </div>
-      <div class="modal-body">
-        Lorem Ipsum ...
-      </div>
-      <div class="modal-footer"></div>
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Calibrating</h5>
+            </div>
+            <div class="modal-body" id="calibrationModal">
+            </div>
+            <div class="modal-footer"></div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Playing</h5>
-      </div>
-      <div class="modal-body">
-        Lorem Ipsum
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Playing</h5>
+            </div>
+            <div class="modal-body">
+                Lorem Ipsum
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div id="submitDiv" hx-trigger="submitEvent" hx-post="{% url 'submit' game_id=game.id %}" hx-include="this"
-  hx-target="#messages" hx-swap="afterbegin" style="display: none">
-  {% csrf_token %}
-  <textarea name="data" id="submitData"></textarea>
+    hx-target="#messages" hx-swap="afterbegin" style="display: none">
+    {% csrf_token %}
+    <textarea name="data" id="submitData"></textarea>
 </div>
 <script src="{% static 'mainapp/detect.js' %}"></script>
 <script>
-  function startCalibrating(onFinished) {
-    requestPermission();
-    // definitely not abusing globals
-    onCalibrated = onFinished;
+    function startCalibrating(onFinished) {
+        requestPermission();
+        // definitely not abusing globals
+        onCalibrated = onFinished;
 
-    window.addEventListener("devicemotion", motionHandler);
-    window.addEventListener("deviceorientation", (event) => {
-      if (!recording) return;
-      dataRot.push({ x: event.alpha, y: event.beta, z: event.gamma });
-    });
-    recording = true;
-  }
+        window.addEventListener("devicemotion", motionHandler);
+        window.addEventListener("deviceorientation", (event) => {
+            if (!recording) return;
+            dataRot.push({x: event.alpha, y: event.beta, z: event.gamma});
+        });
+        recording = true;
+    }
 
-  function isCalibrated() {
-    return repr.up !== null && repr.side !== null && repr.forward !== null;
-  }
+    function isCalibrated() {
+        return repr.up !== null && repr.side !== null && repr.forward !== null;
+    }
 
-  function startPlaying(onFinished) {
-    requestPermission();
-    inGame = true;
-    currentGameGestures = [];
-    onFinishedPlaying = onFinished;
-
-  }
-
-
-  function setUpGameFlow() {
-    document.getElementById('configModal').addEventListener('shown.bs.modal', function () {
-      startCalibrating(function () {
-        bootstrap.Modal.getInstance(document.getElementById('configModal')).hide()
-        document.getElementById('playButton').disabled = false
-      })
-    })
-
-    document.getElementById('playModal').addEventListener('shown.bs.modal', function () {
-      startPlaying(function (data) {
-        bootstrap.Modal.getInstance(document.getElementById('playModal')).hide()
-        document.getElementById('submitData').value = JSON.stringify(data)
-        htmx.trigger("#submitDiv", "submitEvent")
-      })
-    })
-
-    if (isCalibrated()) {
-      document.getElementById('playButton').disabled = false
+    function startPlaying(onFinished) {
+        requestPermission();
+        inGame = true;
+        currentGameGestures = [];
+        onFinishedPlaying = onFinished;
 
     }
-  }
 
-  setUpGameFlow()
+
+    function setUpGameFlow() {
+        document.getElementById('configModal').addEventListener('shown.bs.modal', function () {
+            startCalibrating(function () {
+                bootstrap.Modal.getInstance(document.getElementById('configModal')).hide()
+                document.getElementById('playButton').disabled = false
+            })
+        })
+
+        document.getElementById('playModal').addEventListener('shown.bs.modal', function () {
+            startPlaying(function (data) {
+                bootstrap.Modal.getInstance(document.getElementById('playModal')).hide()
+                document.getElementById('submitData').value = JSON.stringify(data)
+                htmx.trigger("#submitDiv", "submitEvent")
+            })
+        })
+
+        if (isCalibrated()) {
+            document.getElementById('playButton').disabled = false
+
+        }
+    }
+
+    setUpGameFlow()
 
 </script>
 
