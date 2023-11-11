@@ -41,7 +41,7 @@ let currentGameGestures = []; // [['up', 0], ['side', 200]] (first timestamp is 
 let lastGestureTimestamp = null;
 let gameStartTimestamp = 0;
 
-const styleChangeThrottle = 900;
+// const styleChangeThrottle = 900;
 // let lastStyleChange = 0;
 function dataDetection() {
   if (!recording) return;

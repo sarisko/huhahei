@@ -107,6 +107,11 @@
 <!-- audio.current.pause() -->
 <!-- audio.current.currentTime = 0 -->
 <script>
+    document.addEventListener('htmx:afterRequest', function (evt) {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+    });
     function startCalibrating(onFinished) {
         requestPermission();
         // definitely not abusing globals
