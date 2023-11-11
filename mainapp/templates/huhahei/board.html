@@ -3,6 +3,8 @@
 {% block title %}Leaderboard{% endblock %}
 
 {% block content %}
+
+<div id="nav"><a href="{% url 'play' game_id=game.id %}"><img src="https://junction.banhetom.com/back.svg"/></a></div>
 <h1>Hello from leaderboard!</h1>
 <div id="top3">
   {% for record in records|slice:":3" %}
