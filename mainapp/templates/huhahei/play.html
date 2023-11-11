@@ -4,7 +4,7 @@
 {% block title %}Game{% endblock %}
 
 {% block content %}
-<h1>Hello <span class="highlight">{{player.name}}</span>!</h1>
+<h1>Hello <span class="highlight" id="player_name">{{player.name}}</span>!</h1>
 
 <p class="text-center">
   You are playing <span class="highlight">{{game.title}}</span>
@@ -18,29 +18,31 @@
 
 <form class="form-inline form-horizontal">
   {% csrf_token %}
-  <div class="row align-items-center">
-    <div class="col-auto">
-      <label class="form-label " for="{{ name_form.name.id_for_label }}">Name</label>
-    </div>
-    <div class="col-auto">
-      <input class="form-control form-control-sm " id="{{ name_form.name.id_for_label }}" type="text"
-        value="{{name_form.name.value}}" name="{{name_form.name.name}}"></input>
-    </div>
-    <div class="col-auto">
-      <button class="btn btn-primary " hx-post="{% url 'update-name' game_id=game.id %}" hx-include="closest form"
-        hx-target="#messages" hx-swap="afterbegin">Save</button>
+  <div class="container">
+    <div class="row align-items-center justify-content-md-center">
+      <div class="col-auto">
+        <label class="form-label " for="{{ name_form.name.id_for_label }}">Name</label>
+      </div>
+      <div class="col-auto">
+        <input class="form-control form-control-sm " id="{{ name_form.name.id_for_label }}" type="text"
+          value="{{name_form.name.value}}" name="{{name_form.name.name}}"></input>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary " hx-post="{% url 'update-name' game_id=game.id %}" hx-include="closest form"
+          hx-target="#messages" hx-swap="afterbegin">Save</button>
+      </div>
     </div>
   </div>
 </form>
 
 
-<div class="row align-items-center">
-  <div class="col-sm-2">
+<div class="row align-items-center justify-content-md-center">
+  <div class="col-auto">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
       data-bs-target="#configModal">Calibrate</button>
   </div>
 
-  <div class="col-sm-2">
+  <div class="col-auto">
     <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal"
       disabled>Play</button>
   </div>
@@ -50,7 +52,8 @@
 
 <div class="container" id="messages"></div>
 
-<div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
@@ -64,7 +67,8 @@
   </div>
 </div>
 
-<div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
@@ -88,44 +92,44 @@
 <script src="{% static 'mainapp/detect.js' %}"></script>
 <script>
 
-    function startCalibrating(onFinished) {
-        // TODO: Zajo
-        setTimeout(onFinished, 2000)
+  function startCalibrating(onFinished) {
+    // TODO: Zajo
+    setTimeout(onFinished, 2000)
+  }
+
+  function isCalibrated() {
+    // TODO: Zajo
+    return true
+  }
+
+  function startPlaying(onFinished) {
+    // TODO: Zajo
+    setTimeout(function () { onFinished({ "foo": "bar" }) }, 2000)
+  }
+
+
+  function setUpGameFlow() {
+    document.getElementById('configModal').addEventListener('shown.bs.modal', function () {
+      startCalibrating(function () {
+        bootstrap.Modal.getInstance(document.getElementById('configModal')).hide()
+        document.getElementById('playButton').disabled = false
+      })
+    })
+
+    document.getElementById('playModal').addEventListener('shown.bs.modal', function () {
+      startPlaying(function (data) {
+        bootstrap.Modal.getInstance(document.getElementById('playModal')).hide()
+        document.getElementById('submitData').value = JSON.stringify(data)
+        htmx.trigger("#submitDiv", "submitEvent")
+      })
+    })
+
+    if (isCalibrated()) {
+      document.getElementById('playButton').disabled = false
     }
+  }
 
-    function isCalibrated() {
-        // TODO: Zajo
-        return true
-    }
-
-    function startPlaying(onFinished) {
-        // TODO: Zajo
-        setTimeout(function () {onFinished({"foo": "bar"})}, 2000)
-    }
-
-
-    function setUpGameFlow() {
-        document.getElementById('configModal').addEventListener('shown.bs.modal', function () {
-            startCalibrating(function () {
-                bootstrap.Modal.getInstance(document.getElementById('configModal')).hide()
-                document.getElementById('playButton').disabled = false
-            })
-        })
-
-        document.getElementById('playModal').addEventListener('shown.bs.modal', function () {
-            startPlaying(function (data) {
-                bootstrap.Modal.getInstance(document.getElementById('playModal')).hide()
-                document.getElementById('submitData').value = JSON.stringify(data)
-                htmx.trigger("#submitDiv", "submitEvent")
-            })
-        })
-
-        if (isCalibrated()) {
-            document.getElementById('playButton').disabled = false
-        }
-    }
-
-    setUpGameFlow()
+  setUpGameFlow()
 
 </script>
 

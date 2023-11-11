@@ -71,8 +71,11 @@ def update_name(request, game, player):
     player.save()
     return render(request, 'huhahei/play_msgs.html', {
         'msgs': [
-            {'text': f'Your name has been updated to "{player.name}"'}
-        ]
+            {
+                'text': f'Your name has been updated to "{player.name}"'
+            }
+        ],
+        'player_name': player.name
     })
 
 

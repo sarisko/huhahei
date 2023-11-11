@@ -5,5 +5,9 @@
 </div>
 {% endfor %}
 {% if top_score != None %}
-  <span id="top_score" hx-swap-oob="true">{{ top_score }}</span>
+  <span id="top_score" class="highlight" hx-swap-oob="true">{{ top_score }}</span>
 {% endif %}
+{% if player_name != None %}
+  <span id="player_name" class="highlight" hx-swap-oob="true">{{ player_name }}</span>
+{% endif %}
+
