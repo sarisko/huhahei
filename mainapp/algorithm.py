@@ -48,3 +48,19 @@ def find_best_score(sample, target):
     final_score = int(math.floor(sqr_score * min(len(target)*1.0 / len(sample), 1)))
     print(f"Matching score: {best_score}\nMatching offset: {best_offset}\nSqr score: {sqr_score}\nFinal: {final_score}")
     return final_score
+
+
+USF_MAP = {
+    "U": "up",
+    "S": "side",
+    "F": "forward",
+}
+
+
+def delays_to_timestamp(delay_pattern):
+    result = []
+    now = 0
+    for dr in delay_pattern:
+        result.append([USF_MAP[dr["move"]], now])
+        now += dr["delay"]
+    return result

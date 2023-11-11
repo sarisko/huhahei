@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('games/<uuid:game_id>/board/', views.leaderboard, name='board'),
     path('games/<uuid:game_id>/play/', views.play, name='play'),
+    path('games/<uuid:game_id>/clue/', views.clue, name='clue'),
     path('games/<uuid:game_id>/update-name/', views.update_name, name='update-name'),
     path('games/<uuid:game_id>/submit/', views.submit, name='submit'),
 

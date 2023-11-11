@@ -1,4 +1,5 @@
 import functools
+import json
 import random
 import uuid
 
@@ -27,6 +28,15 @@ def leaderboard(request, game_id):
     return render(request, "huhahei/board.html", {
         'records': records_with_ranks,
         'game': game,
+    })
+
+
+def clue(request, game_id):
+    game = get_object_or_404(models.Game, id=game_id)
+
+    return render(request, "huhahei/clue.html", {
+        'game': game,
+        'pattern_raw': json.dumps(game.target_pattern)
     })
 
 
@@ -92,7 +102,10 @@ def submit(request, game, player):
 
     # simulate score
     # score = sum([random.randint(0, 100) for _ in range(10)])
-    score = algorithm.find_best_score(submit_form.cleaned_data['data'], game.target_pattern)
+    score = algorithm.find_best_score(
+        submit_form.cleaned_data['data'],
+        algorithm.delays_to_timestamp(game.target_pattern)
+    )
 
     messages.append({'text': f'Your score is {score}'})
 

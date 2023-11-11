@@ -6,8 +6,17 @@
       "title": "HuHaHei! Demo",
       "capture_time_ms": 20000,
       "target_pattern": [
-        ["up", 0], ["up", 2000], ["up", 4000], ["up", 6000], ["up", 8000],
-        ["up", 10000], ["up", 12000], ["up", 14000], ["up", 16000], ["up", 18000]
+        {"move":"U", "delay":1500},
+        {"move":"S", "delay":1500},
+        {"move":"F", "delay":2000},
+        {"move":"F", "delay":1500},
+        {"move":"S", "delay":2000},
+        {"move":"U", "delay":1500},
+        {"move":"S", "delay":2000},
+        {"move":"F", "delay":1500},
+        {"move":"U", "delay":1500},
+        {"move":"S", "delay":1500},
+        {"move":"F", "delay":1500}
       ]
     }
   }
