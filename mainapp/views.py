@@ -1,4 +1,3 @@
-import datetime
 import functools
 import random
 import uuid
@@ -6,9 +5,11 @@ import uuid
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from . import models
 from . import forms
+from . import algorithm
 
 
 def leaderboard(request, game_id):
@@ -81,15 +82,23 @@ def update_name(request, game, player):
 
 @_manage_player
 def submit(request, game, player):
+    submit_form = forms.SubmitForm(request.POST)
+    if not submit_form.is_valid():
+        return HttpResponseBadRequest()
+
     messages = []
 
+    print(submit_form.cleaned_data['data'])
+
     # simulate score
-    score = sum([random.randint(0, 100) for _ in range(10)])
+    # score = sum([random.randint(0, 100) for _ in range(10)])
+    score = algorithm.find_best_score(submit_form.cleaned_data['data'], algorithm.DEMO_TARGET)
+
     messages.append({'text': f'Your score is {score}'})
 
     if score > (player.top_score or 0):
         player.top_score = score
-        player.top_score_at = datetime.datetime.now()
+        player.top_score_at = timezone.now()
         player.save()
         messages.append({'text': f'Congratulations! This is your new best score.'})
 
