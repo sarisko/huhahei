@@ -13,17 +13,13 @@ from . import forms
 def leaderboard(request, game_id):
     game = get_object_or_404(models.Game, id=game_id)
 
-    dummy_scores = [
-        {'name': 'Syseľ', 'score': 1234},
-        {'name': 'Sára', 'score': 1233},
-        {'name': 'Tomáš', 'score': 47},
-        {'name': 'Zajo', 'score': 42},
-        {'name': 'Pankrác', 'score': 3},
-        {'name': 'Servác', 'score': 2},
-        {'name': 'Bonifác', 'score': 1},
-    ]
+    players = models.Player.objects.filter(game=game).exclude(top_score__isnull=True).order_by('-top_score')[:100]
 
-    records_with_ranks = [{**r, 'rank': i+1} for i, r in enumerate(dummy_scores)]
+    records_with_ranks = [{
+        'name': p.display_name(),
+        'score': p.top_score,
+        'rank': i+1,
+    } for i, p in enumerate(players)]
 
     return render(request, "huhahei/board.html", {
         'records': records_with_ranks,
