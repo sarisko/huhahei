@@ -69,6 +69,7 @@ def play(request, game, player):
         'player': player,
         'name_form': name_form,
         'submit_form': submit_form,
+        'show_secrets': request.user.is_superuser
     })
 
 
