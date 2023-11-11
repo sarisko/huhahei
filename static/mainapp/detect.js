@@ -23,7 +23,7 @@ function motionHandler(event) {
 // This function runs on setInterval below, and detects calibration/later gestures from data
 let lastDetectTimestamp = 0;
 // CONSTANTS - SETTINGS
-const gestLength = 80;
+const gestLength = 55;
 const gestThreshold = 500;
 const gameLengthMs = document.getElementById("playModal").dataset.captureTimeMs;
 // TRRRRR
@@ -41,13 +41,13 @@ let currentGameGestures = []; // [['up', 0], ['side', 200]] (first timestamp is 
 let lastGestureTimestamp = null;
 let gameStartTimestamp = 0;
 
-// const styleChangeThrottle = 900;
-// let lastStyleChange = 0;
+const styleChangeThrottle = 900;
+let lastStyleChange = 0;
 function dataDetection() {
   if (!recording) return;
   if (data.length < gestLength) return;
 
-  /* if (Date.now() - lastStyleChange > styleChangeThrottle) {
+  if (Date.now() - lastStyleChange > styleChangeThrottle) {
     const gameTimePercentage = gameStartTimestamp
       ? Math.round(((Date.now() - gameStartTimestamp) / gameLengthMs) * 100)
       : 0;
@@ -58,7 +58,7 @@ function dataDetection() {
     }%, rgba(147,7,58,1) ${gameTimePercentage}%, rgba(147,7,58,1) 100%);
     `;
     lastStyleChange = Date.now();
-  } */
+  }
 
   const magnitude = getMagnitude(data.length - gestLength, data.length);
   if (magnitude < gestThreshold) {
@@ -93,13 +93,13 @@ function dataDetection() {
 
     switch (closest[0]) {
       case "up":
-        document.getElementById("huAudio").play();
+        document.getElementById("huAudio").cloneNode(true).play();
         break;
       case "side":
-        document.getElementById("haAudio").play();
+        document.getElementById("haAudio").cloneNode(true).play();
         break;
       case "forward":
-        document.getElementById("heiAudio").play();
+        document.getElementById("heiAudio").cloneNode(true).play();
         break;
     }
 
@@ -120,13 +120,13 @@ function dataDetection() {
       ];
       document.getElementById("calibrationModalContent").innerHTML +=
         "<br>Move to the side now!";
-      document.getElementById("huAudio").play();
+      document.getElementById("huAudio").cloneNode(true).play();
       break calibration;
     }
     if (repr.side === null) {
       document.getElementById("calibrationModalContent").innerHTML +=
         "<br>Move forward now!";
-      document.getElementById("haAudio").play();
+      document.getElementById("haAudio").cloneNode(true).play();
       repr.side = [
         zeroMeanUnitVarianceNormalization(
           data.slice(data.length - gestLength, data.length),
@@ -138,7 +138,7 @@ function dataDetection() {
       break calibration;
     }
     if (repr.forward === null) {
-      document.getElementById("heiAudio").play();
+      document.getElementById("heiAudio").cloneNode(true).play();
       repr.forward = [
         zeroMeanUnitVarianceNormalization(
           data.slice(data.length - gestLength, data.length),
