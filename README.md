@@ -14,5 +14,6 @@ Each time
 source venv/bin/activate
 pip install -r requirements.txt
 ./manage.py migrate
+./manage.py loaddata junction-fixture.json
 ./manage.py runserver
 ```

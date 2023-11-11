@@ -1,0 +1,9 @@
+[
+  {
+    "model": "mainapp.game",
+    "pk": "44f5c1d5-81a6-436e-9b52-1d0f160877c4",
+    "fields": {
+      "title": "HuHaHei! Demo"
+    }
+  }
+]
