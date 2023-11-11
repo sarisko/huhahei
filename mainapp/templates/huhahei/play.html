@@ -10,7 +10,11 @@
     You are playing <span class="highlight">{{game.title}}</span>
 </p>
 <p class="text-center">
+    {% if player.top_score %}
     Your best score is <span class="highlight" id="top_score">{{ player.top_score }}</span>
+    {% else %}
+    Calibrate & play to set your top score!
+    {% endif %}
 </p>
 <p class="text-center">
     <a class="btn btn-secondary" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
