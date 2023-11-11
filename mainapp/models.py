@@ -16,6 +16,7 @@ class Player(models.Model):
     session_id = models.UUIDField(editable=False)
     name = models.CharField(max_length=127, blank=True, null=True)
     top_score = models.IntegerField(blank=True, null=True)
+    top_score_at = models.DateTimeField(blank=True, null=True)
 
     def display_name(self):
         return self.name or "Anonymous"

@@ -1,3 +1,4 @@
+import datetime
 import functools
 import random
 import uuid
@@ -13,11 +14,12 @@ from . import forms
 def leaderboard(request, game_id):
     game = get_object_or_404(models.Game, id=game_id)
 
-    players = models.Player.objects.filter(game=game).exclude(top_score__isnull=True).order_by('-top_score')[:100]
+    players = models.Player.objects.filter(game=game).exclude(top_score__isnull=True).order_by('-top_score', 'top_score_at')[:100]
 
     records_with_ranks = [{
         'name': p.display_name(),
         'score': p.top_score,
+        'time': p.top_score_at,
         'rank': i+1,
     } for i, p in enumerate(players)]
 
@@ -82,6 +84,7 @@ def submit(request, game, player):
 
     if score > (player.top_score or 0):
         player.top_score = score
+        player.top_score_at = datetime.datetime.now()
         player.save()
         messages.append({'text': f'Congratulations! This is your new best score.'})
 
