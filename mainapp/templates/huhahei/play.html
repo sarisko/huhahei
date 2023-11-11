@@ -7,32 +7,38 @@
 <h1>Hello player!</h1>
 
 <p class="text-center">
-    You are playing {{ game.title}}
-    <a class="btn btn-link" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
+  You are playing {{ game.title}}
+  <a class="btn btn-link" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
 </p>
 
 <p>
-    Your best score is <span id="top_score">{{ player.top_score }}</span>
+  Your best score is <span id="top_score">{{ player.top_score }}</span>
 </p>
 
-<form>
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="{{ name_form.name.id_for_label }}">Name: </label>
-        {{ name_form.name }}
+<form class="form-inline form-horizontal">
+  {% csrf_token %}
+  <div class="row g-3 align-items-center">
+    <div class="col-sm-1">
+      <label class="form-label " for="{{ name_form.name.id_for_label }}">Name</label>
     </div>
-    <button class="btn btn-primary" hx-post="{% url 'update-name' game_id=game.id %}" hx-include="closest form"
+    <div class="col-sm-3">
+      <input class="form-control form-control-sm " id="{{ name_form.name.id_for_label }}" type="text"
+        value="{{name_form.name.value}}" name="{{name_form.name.name}}"></input>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn btn-primary " hx-post="{% url 'update-name' game_id=game.id %}" hx-include="closest form"
         hx-target="#messages" hx-swap="afterbegin">Save</button>
+    </div>
+  </div>
 </form>
 
 <div class="container">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-        data-bs-target="#configModal">Calibrate</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#configModal">Calibrate</button>
 </div>
 
 <div class="container">
-    <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal"
-        disabled>Play</button>
+  <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal"
+    disabled>Play</button>
 </div>
 
 <hr />
@@ -40,41 +46,39 @@
 <div class="container" id="messages"></div>
 
 <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Calibrating</h5>
-            </div>
-            <div class="modal-body">
-                Lorem Ipsum ...
-            </div>
-            <div class="modal-footer"></div>
-        </div>
+  aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Calibrating</h5>
+      </div>
+      <div class="modal-body">
+        Lorem Ipsum ...
+      </div>
+      <div class="modal-footer"></div>
     </div>
 </div>
 
 <div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Playing</h5>
-            </div>
-            <div class="modal-body">
-                Lorem Ipsum
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
+  aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Playing</h5>
+      </div>
+      <div class="modal-body">
+        Lorem Ipsum
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
 </div>
 
 <div id="submitDiv" hx-trigger="submitEvent" hx-post="{% url 'submit' game_id=game.id %}" hx-include="this"
-    hx-target="#messages" hx-swap="afterbegin" style="display: none">
-    {% csrf_token %}
-    <textarea name="data" id="submitData"></textarea>
+  hx-target="#messages" hx-swap="afterbegin" style="display: none">
+  {% csrf_token %}
+  <textarea name="data" id="submitData"></textarea>
 </div>
 <script src="{% static 'mainapp/detect.js' %}"></script>
 <script>
