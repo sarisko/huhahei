@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.huhahei.com/static/css/styles.css">
+    <title>HuHaHei</title>
+    <style>
+        body{
+            overflow: hidden;
+        }
+
+        #ciara {
+            position: fixed;
+            top: 80%;
+            color: beige;
+            z-index: 150;
+            width: 100%;
+        }
+
+        #playground {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #00000000;
+        }
+
+        .arrow_top {
+            position: absolute;
+            width: 350px; /* Adjust the size of the arrow */
+            height: 150px;
+            background-image: url('arrow_top.png'); /* Replace with the path to your arrow image */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: fallArrow_top 3s linear infinite;
+        }
+
+        @keyframes fallArrow_top {
+            0% {
+                transform: translate(0%, -450%);
+            }
+            100% {
+                transform: translate(-0%, 450%);
+            }
+        }
+
+        .arrow_side {
+            position: absolute;
+            width: 350px; /* Adjust the size of the arrow */
+            height: 150px;
+            background-image: url('arrow_side.png'); /* Replace with the path to your arrow image */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: fallArrow_side 3s linear infinite;
+        }
+
+        @keyframes fallArrow_side {
+            0% {
+                transform: translate(0%, -450%);
+            }
+            100% {
+                transform: translate(0%, 450%);
+            }
+        }
+
+        .arrow_f {
+            position: absolute;
+            width: 350px; /* Adjust the size of the arrow */
+            height: 150px;
+            background-image: url('arrow_f.png'); /* Replace with the path to your arrow image */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: fallArrow_f 3s linear infinite;
+        }
+
+        @keyframes fallArrow_f {
+            0% {
+                transform: translate(0%, -450%);
+            }
+            100% {
+                transform: translate(0%, 450%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="template-bg">
+        <img src="https://www.huhahei.com/static/img/oval-one.svg" class="floating-1" />
+        <img src="https://www.huhahei.com/static/img/oval-two.svg" class="floating-2" />
+    </div>
+    <div id="countdown"></div>
+    <div id="playground">
+    </div>
+    
+
+<script>
+
+    let sequence = [1, 2, 3, 2, 1, 2, 2, 2, 3, 3, 1]
+
+    function execute_next_move(n){
+        let next_move = sequence[n];
+        createArrow(next_move);
+        
+        if(n-1<sequence.length){
+        setTimeout(execute_next_move, 2000, n+1);}
+        }
+
+        function countdown(n){
+            const cd = document.getElementById("playground");
+            if (n==3){
+                cd.innerHTML = '<img src="https://www.huhahei.com/static/img/3.png">'
+            } if (n==2){
+                cd.innerHTML = '<img src="https://www.huhahei.com/static/img/2.png">'
+            } if (n==1){
+                cd.innerHTML = '<img src="https://www.huhahei.com/static/img/1.png">'
+            }
+            if(n>0){
+            setTimeout(countdown, 1000, n-1);
+        }else{
+        cd.innerHTML = '<hr id="ciara" size="5">';
+        execute_next_move(0);
+        }
+            }
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+        countdown(3);
+    });
+
+    function createArrow(n) {
+        const playground = document.getElementById("playground");
+        const arrowContainer = document.createElement('div');
+        if (n == 1){
+            arrowContainer.classList.add('arrow_top');
+        } 
+        if (n == 2){
+            arrowContainer.classList.add('arrow_side');
+        }
+        if (n == 3) {
+            arrowContainer.classList.add('arrow_f');
+        }
+
+        playground.appendChild(arrowContainer);
+
+        arrowContainer.addEventListener('animationiteration', function () {
+            arrowContainer.remove();
+        });
+    }
+</script>
+
+</body>
+</html>
