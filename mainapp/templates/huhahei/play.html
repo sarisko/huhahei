@@ -5,4 +5,11 @@
 {% block content %}
 <h1>Hello player!</h1>
 <p>Your id is {{ player.id }}</p>
+
+<form >
+    {% csrf_token %}
+    <label for="{{ name_form.name.id_for_label }}">Name: </label>
+    {{ name_form.name }}
+    <button hx-post="../update-name/" hx-include="closest form" hx-swap="none">Save</button>
+</form>
 {% endblock %}

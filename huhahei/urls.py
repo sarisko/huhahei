@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('games/<uuid:game_id>/board/', views.leaderboard, name='board'),
     path('games/<uuid:game_id>/play/', views.play, name='play'),
+    path('games/<uuid:game_id>/update-name/', views.update_name, name='update-name'),
 
     # Depends on junction-fixture.json
     path('', lambda r : redirect('board', permanent=False, game_id=uuid.UUID('44f5c1d5-81a6-436e-9b52-1d0f160877c4'))),

@@ -1,10 +1,12 @@
 import functools
 import uuid
 
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from . import models
+from . import forms
 
 
 def leaderboard(request, game_id):
@@ -37,7 +39,6 @@ def _manage_player(func):
         session_id = uuid.uuid4() if session_id_raw is None else uuid.UUID(session_id_raw)
         game = get_object_or_404(models.Game, id=game_id)
         player, _ = models.Player.objects.get_or_create(game=game, session_id=session_id)
-        print(player)
 
         response = func(request, game=game, player=player, *args, **kwargs)
 
@@ -51,7 +52,20 @@ def _manage_player(func):
 
 @_manage_player
 def play(request, game, player):
+    name_form = forms.NameForm(data={'name': player.name})
     return render(request, "huhahei/play.html", {
         'game': game,
         'player': player,
+        'name_form': name_form,
     })
+
+
+@_manage_player
+def update_name(request, game, player):
+    name_form = forms.NameForm(request.POST)
+    if not name_form.is_valid():
+        return HttpResponseBadRequest()
+
+    player.name = name_form.cleaned_data["name"]
+    player.save()
+    return HttpResponse('')

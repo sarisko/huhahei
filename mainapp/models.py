@@ -17,6 +17,12 @@ class Player(models.Model):
     name = models.CharField(max_length=127, blank=True, null=True)
     top_score = models.IntegerField(blank=True, null=True)
 
+    def display_name(self):
+        return self.name or "Anonymous"
+
+    def __str__(self):
+        return f'{self.display_name()} @ {self.game.title} ({self.id})'
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=('game', 'session_id'), name='one_session_per_game')
