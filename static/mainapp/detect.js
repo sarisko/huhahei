@@ -66,6 +66,8 @@ function dataDetection() {
       currentGameGestures.push([closest[0], Date.now() - lastGestureTimestamp]);
       lastGestureTimestamp = Date.now();
     }
+    // just debug for now
+
     console.log("closest", closest);
   }
 
@@ -81,9 +83,13 @@ function dataDetection() {
           dataRot.slice(dataRot.length - gestLength, dataRot.length),
         ),
       ];
+      document.getElementById("calibrationModalContent").innerHTML +=
+        "<br>Move to the side now!";
       break calibration;
     }
     if (repr.side === null) {
+      document.getElementById("calibrationModalContent").innerHTML +=
+        "<br>Move forward now!";
       repr.side = [
         zeroMeanUnitVarianceNormalization(
           data.slice(data.length - gestLength, data.length),

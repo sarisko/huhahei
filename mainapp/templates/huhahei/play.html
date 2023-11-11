@@ -59,7 +59,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Calibrating</h5>
             </div>
-            <div class="modal-body" id="calibrationModal">
+            <div class="modal-body" id="calibrationModalContent">
             </div>
             <div class="modal-footer"></div>
         </div>
@@ -73,8 +73,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Playing</h5>
             </div>
-            <div class="modal-body">
-                Lorem Ipsum
+            <div class="modal-body" id="playingModalContent">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -94,6 +93,10 @@
         requestPermission();
         // definitely not abusing globals
         onCalibrated = onFinished;
+        document.getElementById('calibrationModalContent').innerHTML = '<p>Calibrating...</p><br>Move up now!';
+        repr.up = null;
+        repr.side = null;
+        repr.forward = null;
 
         window.addEventListener("devicemotion", motionHandler);
         window.addEventListener("deviceorientation", (event) => {
@@ -109,6 +112,9 @@
 
     function startPlaying(onFinished) {
         requestPermission();
+        document.getElementById('playingModalContent').innerHTML = "<p>Playing...</p><br>Follow the movements!" +
+            "<br>The game takes " + Math.round(gameLengthMs / 1000) + " seconds";
+
         inGame = true;
         currentGameGestures = [];
         onFinishedPlaying = onFinished;
