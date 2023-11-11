@@ -4,15 +4,16 @@
 {% block title %}Game{% endblock %}
 
 {% block content %}
-<h1>Hello player!</h1>
+<h1>Hello <span class="highlight">{{player.name}}</span>!</h1>
 
 <p class="text-center">
-  You are playing {{ game.title}}
-  <a class="btn btn-link" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
+  You are playing <span class="highlight">{{game.title}}</span>
 </p>
-
-<p>
-  Your best score is <span id="top_score">{{ player.top_score }}</span>
+<p class="text-center">
+  Your best score is <span class="highlight" id="top_score">{{ player.top_score }}</span>
+</p>
+<p class="text-center">
+  <a class="btn btn-secondary" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
 </p>
 
 <form class="form-inline form-horizontal">
@@ -32,13 +33,17 @@
   </div>
 </form>
 
-<div class="container">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#configModal">Calibrate</button>
-</div>
 
-<div class="container">
-  <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal"
-    disabled>Play</button>
+<div class="row align-items-center">
+  <div class="col-sm-2">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+      data-bs-target="#configModal">Calibrate</button>
+  </div>
+
+  <div class="col-sm-2">
+    <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playModal"
+      disabled>Play</button>
+  </div>
 </div>
 
 <hr />
