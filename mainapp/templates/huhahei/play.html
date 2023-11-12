@@ -48,7 +48,7 @@
     </div>
     <form id="rowsName">
         {% csrf_token %}
-        <div class="row justify-content-center mb-3">
+        <div class="row justify-content-center mb-3" id="nameRow">
             <div class="col-auto">
                 <input class="form-control" id="{{ name_form.name.id_for_label }}" type="text"
                     value="{{ name_form.name.value|default:""}}" placeholder="Name"
@@ -99,12 +99,13 @@
     aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content container">
-            <div class="modal-header row justify-content-center">
+            <div class="modal-header row text-center justify-content-center">
                 <div class="col-auto">
                     <img src="{% static 'white_monkey.png' %}" width="200">
+                    <img src="{% static 'white_logo.png' %}" width="200">
                 </div>
             </div>
-            <div class="modal-body text-center fs-1" id="calibrationModalContent">
+            <div class="modal-body text-center fs-3" id="calibrationModalContent">
             </div>
             <div class="modal-footer"></div>
         </div>
@@ -114,11 +115,14 @@
 <div class="modal fade" id="playModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-hidden="true" data-capture-time-ms="{{ game.capture_time_ms }}">
     <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Playing</h5>
+        <div class="modal-content container">
+            <div class="modal-header row text-center justify-content-center" id="playingModalHeader">
+                <div class="col-auto">
+                    <img src="{% static 'white_monkey.png' %}" width="200">
+                    <img src="{% static 'white_logo.png' %}" width="200">
+                </div>
             </div>
-            <div class="modal-body text-center fs-1" id="playingModalContent">
+            <div class="modal-body text-center fs-2" id="playingModalContent">
             </div>
             <div class="modal-footer">
                 <!-- todo remove the button after debugging done  -->
@@ -155,7 +159,7 @@
         }
         // definitely not abusing globals
         onCalibrated = onFinished;
-        document.getElementById('calibrationModalContent').innerHTML = '<p>Calibrating...</p><br>Move your hands<br>UP AND DOWN quickly!';
+        document.getElementById('calibrationModalContent').innerHTML = '<p>Calibration:</p>Move your hands<br>UP AND DOWN quickly!';
         repr.up = null;
         repr.side = null;
         repr.forward = null;
@@ -177,8 +181,8 @@
         if (document.activeElement) {
             document.activeElement.blur();
         }
-        document.getElementById('playingModalContent').innerHTML = "<p>Playing...</p><br>Watch the big screen and follow the movements!" +
-            "<br>The game takes starts with your first movement!";
+        document.getElementById('playingModalContent').innerHTML = "<p>In game!</p><p>Watch the big screen and follow the movements!</p>" +
+            "<p>Your game starts with your first movement!</p>";
 
         inGame = true;
         currentGameGestures = [];

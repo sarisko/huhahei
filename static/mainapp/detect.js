@@ -95,6 +95,10 @@ function dataDetection() {
       "! " +
       Math.round((gameLengthMs - (Date.now() - gameStartTimestamp)) / 1000) +
       " seconds left!"; */
+    const modalHeader = document.getElementById("playingModalHeader");
+    modalHeader.classList.remove("blinker");
+    modalHeader.offsetHeight; // this beautiful contraption triggers a reflow :D
+    modalHeader.classList.add("blinker");
     let audio;
     switch (closest[0]) {
       case "up":
