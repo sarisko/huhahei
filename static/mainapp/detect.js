@@ -135,7 +135,7 @@ function dataDetection() {
         ),
       ];
       document.getElementById("calibrationModalContent").innerHTML +=
-        "<br>Move to the side now!";
+        "<br><br>Now SIDEWAYS AND BACK swiftly!";
       try {
         document.getElementById("huAudio").play();
       } catch {
@@ -145,7 +145,7 @@ function dataDetection() {
     }
     if (repr.side === null) {
       document.getElementById("calibrationModalContent").innerHTML +=
-        "<br>Move forward now!";
+        "<br><br>Final move:<br>FRONT and BACK!";
       try {
         document.getElementById("haAudio").play();
       } catch {
@@ -176,7 +176,7 @@ function dataDetection() {
         ),
       ];
       if (onCalibrated) {
-        onCalibrated();
+        setTimeout(onCalibrated, 500); // we do this to make sure the heii sound plays, let's hope it does
         onCalibrated = null;
       }
       break calibration;
@@ -338,3 +338,8 @@ function requestPermission() {
     permissionRequested = true;
   }
 }
+window.addEventListener("load", () => {
+  // we enable the button only here because it may happen you click it before the js is loaded
+  document.getElementById("permissionsButton").disabled = false;
+  document.getElementById("rowSpinner").style.display = "none";
+});

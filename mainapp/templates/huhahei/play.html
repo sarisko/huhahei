@@ -1,57 +1,84 @@
 {% extends "huhahei/base.html" %}
 {% load static %}
 
-{% block title %}Game{% endblock %}
 
 {% block content %}
 <h1>Hello <span class="highlight" id="player_name">{{player.display_name}}</span>!</h1>
 
-<p class="text-center">
-    You are playing <span class="highlight">{{game.title}}</span>
-</p>
+<!-- <p class="text-center"> -->
+<!--     You are playing <span class="highlight">{{game.title}}</span> -->
+<!-- </p> -->
 <p class="text-center">
     {% if player.top_score %}
     Your best score is <span class="highlight" id="top_score">{{ player.top_score }}</span>
     {% else %}
-    Calibrate & play to set your top score!
+    Play to set your top score!
     {% endif %}
 </p>
-<p class="text-center">
-    <a class="btn btn-secondary" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
-</p>
-
-{% if show_secrets %}
-<p class="text-center">
-    <a class="btn btn-secondary" href="{% url 'clue' game_id=game.id %}">Clue</a>
-</p>
-{% endif %}
 
 <div class="container">
-    <form class="row justify-content-center mb-5">
-        {% csrf_token %}
+    <div class="row justify-content-center mb-3" id="rowSpinner">
         <div class="col-auto">
-            <input class="form-control" id="{{ name_form.name.id_for_label }}" type="text"
-                value="{{ name_form.name.value|default:""}}" placeholder="Name" name="{{name_form.name.name}}"></input>
+            <div class="spinner-border" role="status">
+            </div>
         </div>
         <div class="col-auto">
-            <button class="btn btn-primary" hx-post="{% url 'update-name' game_id=game.id %}" hx-include="closest form"
-                hx-target="#messages" hx-swap="afterbegin">Save</button>
+            Loading
+        </div>
+    </div>
+    <div class="row justify-content-center mb-3" id="rowPermissions">
+        <div class="col-auto">
+            <button id="permissionsButton" onclick="permissionsButtonClick()" type="button" disabled
+                class="btn btn-primary">
+                1. Approve sensor permissions
+            </button>
+        </div>
+    </div>
+    <form id="rowsName">
+        {% csrf_token %}
+        <div class="row justify-content-center mb-3">
+            <div class="col-auto">
+                <input class="form-control" id="{{ name_form.name.id_for_label }}" type="text"
+                    value="{{ name_form.name.value|default:""}}" placeholder="Name"
+                    name="{{name_form.name.name}}"></input>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-auto">
+                <button class="btn btn-primary" hx-post="{% url 'update-name' game_id=game.id %}"
+                    hx-include="closest form" hx-target="#messages" hx-swap="afterbegin">2. Choose name</button>
+            </div>
         </div>
     </form>
 
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mb-3">
         <div class="col-auto">
-            <button type="button" id="calibrateButton" class="btn btn-lg btn-primary" data-bs-toggle="modal"
-                data-bs-target="#configModal">Calibrate</button>
-        </div>
-        <div class="col-auto">
-            <button id="playButton" type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal"
-                data-bs-target="#playModal" disabled>Play</button>
+            <button type="button" id="calibrateButton" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#configModal" disabled>3. Calibrate</button>
         </div>
     </div>
-</div>
+    <div class="row justify-content-center mb-3">
+        <div class="col-auto">
+            <button id="playButton" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#playModal" disabled>4. Play</button>
+        </div>
+    </div>
 
+    <div class="row justify-content-center mb-3">
+        <p class="col-auto">
+            <a class="btn btn-secondary" href="{% url 'board' game_id=game.id %}">Leaderboard</a>
+        </p>
+    </div>
+
+    {% if show_secrets %}
+    <div class="row justify-content-center mb-3">
+        <p class="col-auto">
+            <a class="btn btn-secondary" href="{% url 'clue' game_id=game.id %}">Clue</a>
+        </p>
+    </div>
+    {% endif %}
+</div>
 <hr />
 
 <div class="container" id="messages"></div>
@@ -102,13 +129,19 @@
             document.activeElement.blur();
         }
     });
+    function permissionsButtonClick() {
+        requestPermission();
+        document.getElementById('rowPermissions').style.display = 'none';
+        document.getElementById('calibrateButton').disabled = false;
+
+    }
     function startCalibrating(onFinished) {
         if (document.activeElement) {
             document.activeElement.blur();
         }
         // definitely not abusing globals
         onCalibrated = onFinished;
-        document.getElementById('calibrationModalContent').innerHTML = '<p>Calibrating...</p><br>Move up now!';
+        document.getElementById('calibrationModalContent').innerHTML = '<p>Calibrating...</p><br>Move your hands<br>UP AND DOWN quickly!';
         repr.up = null;
         repr.side = null;
         repr.forward = null;
@@ -130,7 +163,7 @@
         if (document.activeElement) {
             document.activeElement.blur();
         }
-        document.getElementById('playingModalContent').innerHTML = "<p>Playing...</p><br>Follow the movements!" +
+        document.getElementById('playingModalContent').innerHTML = "<p>Playing...</p><br>Watch the big screen and follow the movements!" +
             "<br>The game takes starts with your first movement!";
 
         inGame = true;
@@ -147,9 +180,9 @@
                 bootstrap.Modal.getInstance(document.getElementById('configModal')).hide()
                 document.getElementById('playButton').disabled = false
                 const b = document.getElementById('calibrateButton')
-                b.classList.remove('btn-primary')
-                b.classList.add('btn-secondary')
-                b.blur()
+                b.innerHTML = '3. (Re)calibrate'
+                b.classList.remove('btn-lg')
+
             })
         })
 
