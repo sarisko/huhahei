@@ -178,6 +178,7 @@
     }
 
     function startPlaying(onFinished) {
+        ably_channel.publish("starting", "now")
         if (document.activeElement) {
             document.activeElement.blur();
         }

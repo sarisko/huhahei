@@ -138,40 +138,60 @@
     let ably = new Ably.Realtime.Promise('H1uBEA.tTTDTw:yoebBs_G6z_21zqOlTL0XdRy8NnfLjOxnKTeqaMiD_8')
     let ably_channel = ably.channels.get('junction23')
 
+    let is_running = false
+    let immediate_restart = false
+
     ably_channel.subscribe("detected", (message) => {
-        console.log('Ably: ' + message.data)
         createFeedback(message.data)
     });
 
+    ably_channel.subscribe("starting", (message) => {
+        console.log('Starting')
+        if (!is_running) start()
+        else immediate_restart = true
+    });
+
+    function start() {
+        is_running = true
+        immediate_restart = false
+        setTimeout(countdown, 0, 3)
+    }
+
     function execute_next_move(n){
+        if (n >= sequence.length) {
+            setTimeout(finish, 3000);
+            return
+        }
+
         let next_move = sequence[n];
         createArrow(next_move.move);
         
-        if(n-1<sequence.length){
-        setTimeout(execute_next_move, next_move.delay, n+1);}
-        }
+        setTimeout(execute_next_move, next_move.delay, n+1);
+    }
 
-        function countdown(n){
-            const cd = document.getElementById("playground");
-            if (n==3){
-                cd.innerHTML = '<img src="https://www.huhahei.com/static/img/3.png">'
-            } if (n==2){
-                cd.innerHTML = '<img src="https://www.huhahei.com/static/img/2.png">'
-            } if (n==1){
-                cd.innerHTML = '<img src="https://www.huhahei.com/static/img/1.png">'
-            }
-            if(n>0){
+    function countdown(n){
+        const cd = document.getElementById("playground");
+        if (n==3){
+            cd.innerHTML = '<img src="https://www.huhahei.com/static/img/3.png">'
+        } if (n==2){
+            cd.innerHTML = '<img src="https://www.huhahei.com/static/img/2.png">'
+        } if (n==1){
+            cd.innerHTML = '<img src="https://www.huhahei.com/static/img/1.png">'
+        }
+        if(n>0){
             setTimeout(countdown, 1000, n-1);
-        }else{
-        cd.innerHTML = '<hr id="ciara" size="5">';
-        execute_next_move(0);
+        } else {
+            cd.innerHTML = '<hr id="ciara" size="5">';
+            execute_next_move(0);
         }
-            }
-    
+    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        countdown(3);
-    });
+    function finish() {
+        is_running = false
+        if (immediate_restart) {
+            start()
+        }
+    }
 
     function createArrow(n) {
         const playground = document.getElementById("playground");
