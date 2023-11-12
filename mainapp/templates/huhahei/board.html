@@ -1,56 +1,69 @@
 {% extends "huhahei/base.html" %}
+{% load static %}
 
 {% block title %}HuHaHei! - Leaderboard{% endblock %}
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <a href="{% url 'play' game_id=game.id %}" id="nav" class="mt-5 p-3">
+    <div class="row mt-3">
+        <div class="col-auto me-auto">
+            <a href="{% url 'play' game_id=game.id %}" id="nav" class="mb-5 p-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
                         d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                 </svg>
-                <!-- <img src="https://junction.banhetom.com/back.svg" /> -->
             </a>
+        </div>
+        <div class="col-auto align-middle">
+            <img src="{% static 'white_monkey.png' %}" width="100">
+            <img src="{% static 'white_logo.png' %}" height="83"> <!-- precision hardcoded :D -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-auto align-middle">
         </div>
     </div>
 
     <div class="row">
-        <div class="col mt-3">
-            <h1>HU HA HEI Leaderboard!</h1>
+        <div class="col-9">
+            <h1 class="mb-5">Leaderboard</h1>
+            <div id="top3">
+                {% for record in records|slice:":3" %}
+                <div id="record-{{record.rank}}" class="top leaderboard-item">
+                    <span class="rank">{{ record.rank}}.</span>
+                    <span class="name">{{ record.name }}</span>
+                    <span class="score">{{ record.score }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            <div id="leaderboard" class="leaderboard">
+                {% for record in records|slice:"3:" %}
+                <div class="leaderboard-item">
+                    <span class="rank">{{ record.rank}}.</span>
+                    <span class="name">{{ record.name }}</span>
+                    <span class="score">{{ record.score }}</span>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    <div id="top3">
-        {% for record in records|slice:":3" %}
-        <div id="record-{{record.rank}}" class="top leaderboard-item">
-            <span class="rank">{{ record.rank}}.</span>
-            <span class="name">{{ record.name }}</span>
-            <span class="score">{{ record.score }}</span>
+        <div class="mt-5 col-3">
+            <h3 class="mb-5">Most recent games</h3>
+            <div class="list-group text-center">
+                {% for submit in last_submits %}
+                <div
+                    class="list-group-item {% if submit.score < 200 %}list-group-item-secondary{% endif %} {% if submit.score > 600 %}list-group-item-warning{% endif %}">
+                    {{ submit.player.name }} - {{ submit.score }}
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
+
     </div>
-    <div id="leaderboard" class="leaderboard">
-        {% for record in records|slice:"3:" %}
-        <div class="leaderboard-item">
-            <span class="rank">{{ record.rank}}.</span>
-            <span class="name">{{ record.name }}</span>
-            <span class="score">{{ record.score }}</span>
-        </div>
-        {% endfor %}
-    </div>
-    <ul>
-        {% for submit in last_submits %}
-        <li>
-            {{ submit.player.name }} : {{ submit.score }}
-        </li>
-        {% endfor %}
-    </ul>
 </div>
 <script>
     window.setTimeout(function () {
-        window.location.reload();
+        /*         window.location.reload(); */
     }, 5000);
 </script>
 {% endblock %}
