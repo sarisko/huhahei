@@ -132,6 +132,9 @@
 
     let sequence = {{ pattern_raw|safe }}
 
+    let feedback_positions = [5, 25, 45, 15, 35, 55]
+    let next_feedback_position = 0
+
     let ably = new Ably.Realtime.Promise('H1uBEA.tTTDTw:yoebBs_G6z_21zqOlTL0XdRy8NnfLjOxnKTeqaMiD_8')
     let ably_channel = ably.channels.get('junction23')
 
@@ -195,7 +198,7 @@
         const feedbackContainer = document.createElement('div');
         feedbackContainer.classList.add('feedback');
         feedbackContainer.textContent = name
-        feedbackContainer.style.left = Math.floor(Math.random()*60) + "vw"
+        feedbackContainer.style.left = feedback_positions[(next_feedback_position++) % 6] + "vw"git
 
         playground.appendChild(feedbackContainer);
 
