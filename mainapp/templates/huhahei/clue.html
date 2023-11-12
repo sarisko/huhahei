@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
     <link rel="stylesheet" href="https://www.huhahei.com/static/css/styles.css">
     <title>HuHaHei</title>
     <style>
@@ -90,6 +91,31 @@
                 transform: translate(0%, 450%);
             }
         }
+
+        .feedback {
+            position: fixed;
+            bottom: 5vh;
+            font-size: 8vh;
+            width: 40vw;
+            text-align: center;
+            animation: fadeFeedback 1s linear infinite;
+        }
+
+        @keyframes fadeFeedback {
+            0% {
+                color: #ff6b00;
+            }
+
+            30% {
+                opacity: 1;
+                color: white;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -100,11 +126,19 @@
     <div id="countdown"></div>
     <div id="playground">
     </div>
-    
+
 
 <script>
 
     let sequence = {{ pattern_raw|safe }}
+
+    let ably = new Ably.Realtime.Promise('H1uBEA.tTTDTw:yoebBs_G6z_21zqOlTL0XdRy8NnfLjOxnKTeqaMiD_8')
+    let ably_channel = ably.channels.get('junction23')
+
+    ably_channel.subscribe("detected", (message) => {
+        console.log('Ably: ' + message.data)
+        createFeedback(message.data)
+    });
 
     function execute_next_move(n){
         let next_move = sequence[n];
@@ -153,6 +187,20 @@
 
         arrowContainer.addEventListener('animationiteration', function () {
             arrowContainer.remove();
+        });
+    }
+
+    function createFeedback(name) {
+        const playground = document.getElementById("playground");
+        const feedbackContainer = document.createElement('div');
+        feedbackContainer.classList.add('feedback');
+        feedbackContainer.textContent = name
+        feedbackContainer.style.left = Math.floor(Math.random()*60) + "vw"
+
+        playground.appendChild(feedbackContainer);
+
+        feedbackContainer.addEventListener('animationiteration', function () {
+            feedbackContainer.remove();
         });
     }
 </script>

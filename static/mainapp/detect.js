@@ -8,6 +8,10 @@ let dataRot = []; // same for deviceorientation event (angular velocity)
 let recording = false; // This is essentially true all the time after we get permissions
 let inGame = false;
 
+// Initialize Ably for real time messaging
+let ably = new Ably.Realtime.Promise('H1uBEA.tTTDTw:yoebBs_G6z_21zqOlTL0XdRy8NnfLjOxnKTeqaMiD_8')
+let ably_channel = ably.channels.get('junction23')
+
 // This is the main function which runs 60xps, captures acc data
 function motionHandler(event) {
   if (lastAccTimestamp === 0) lastAccTimestamp = Date.now();
@@ -88,6 +92,9 @@ function dataDetection() {
       currentGameGestures.push([closest[0], Date.now() - gameStartTimestamp]);
       lastGestureTimestamp = Date.now();
     }
+
+    ably_channel.publish("detected", document.getElementById("player_name").textContent);
+
     // in case debugging is needed
     /* document.getElementById("playingModalContent").innerHTML +=
       "<br>" +
