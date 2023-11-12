@@ -40,6 +40,13 @@
         </div>
         {% endfor %}
     </div>
+    <ul>
+        {% for submit in last_submits %}
+        <li>
+            {{ submit.player.name }} : {{ submit.score }}
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 <script>
     window.setTimeout( function() {

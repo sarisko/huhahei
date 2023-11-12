@@ -25,8 +25,11 @@ def leaderboard(request, game_id):
         'rank': i+1,
     } for i, p in enumerate(players)]
 
+    last_submits = models.Submit.objects.select_related('player').filter(player__game=game).order_by('-created_at')[:10]
+
     return render(request, "huhahei/board.html", {
         'records': records_with_ranks,
+        'last_submits': last_submits,
         'game': game,
     })
 
@@ -109,6 +112,8 @@ def submit(request, game, player):
     )
 
     messages.append({'text': f'Your score is {score}'})
+
+    models.Submit.objects.create(player=player, score=score, pattern=submit_form.cleaned_data['data'])
 
     if score > (player.top_score or 0):
         player.top_score = score

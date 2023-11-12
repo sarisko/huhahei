@@ -30,3 +30,11 @@ class Player(models.Model):
         constraints = [
             models.UniqueConstraint(fields=('game', 'session_id'), name='one_session_per_game')
         ]
+
+
+class Submit(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    score = models.IntegerField()
+    pattern = models.JSONField()
